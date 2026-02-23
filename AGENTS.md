@@ -82,6 +82,8 @@ Variants:
 
 - Any `*.plex-appletv.mp4` variants are moved out of the indexed tree to avoid duplicate episodes:
   - `/mnt/raid/dance/garysusan/_variants/...`
+  - If you decide you want the Apple TV transcodes to become the primary files (so Plex will stream them without transcoding),
+    use `scripts/promote_plex_appletv_variants.py` to overwrite the originals with the variants.
 
 ### 3) JT Swing (Single Show: JTSwing)
 
@@ -210,6 +212,25 @@ python3 /mnt/raid/dance/plex_set_garysusan_season_titles.py \
 Note:
 
 - The same script also works for shows whose season folders are just `Season NN - <Season Title>` (no collection segment), e.g. JTSwing.
+
+### Promote Apple TV Variants (Overwrite Originals)
+
+- `scripts/promote_plex_appletv_variants.py`
+
+Dry run (prints plan):
+
+```sh
+python3 scripts/promote_plex_appletv_variants.py --root /mnt/raid/dance/garysusan
+```
+
+Apply and discard originals (replaces each canonical `.mp4` with its matching `.plex-appletv.mp4`):
+
+```sh
+python3 scripts/promote_plex_appletv_variants.py \
+  --root /mnt/raid/dance/garysusan \
+  --delete-originals \
+  --apply
+```
 
 ## Operational Notes
 
