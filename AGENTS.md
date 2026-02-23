@@ -236,3 +236,4 @@ python3 scripts/promote_plex_appletv_variants.py \
 
 - Plex API calls from inside the sandbox were unreliable/blocked. Running against `http://127.0.0.1:32400` outside the sandbox worked reliably.
 - After large filesystem moves, a Plex refresh (`/library/sections/<id>/refresh`) helps Plex re-index before title updates.
+- This server has an Intel Arc GPU; use QSV hardware acceleration when transcoding (e.g., set `USE_QSV=1` for `scripts/transcode_plex_appletv.sh`).
