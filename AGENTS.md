@@ -232,6 +232,84 @@ python3 scripts/promote_plex_appletv_variants.py \
   --apply
 ```
 
+### 4) Westcoast Privates (Single Show: westcoast - privates)
+
+Show folder:
+
+- `/mnt/raid/dance/Shows/westcoast - privates`
+
+Season layout (post-reorganization):
+
+```
+Season 01 - Elina/     S01E01-S01E10   artwork: ~/elina.jpg
+Season 02 - Glenn/     S02E01-S02E17   artwork: ~/glenn-baal-scc.jpg
+Season 03 - Others/    S03E01+         (no artwork)
+```
+
+Naming conventions:
+
+- Seasons are named by instructor (Elina, Glenn, Others).
+- Episode titles have the instructor prefix stripped (e.g., "glenn anchor variations" → "anchor variations") because the season name carries that context — same GarySusan convention.
+- Classification by instructor: regex match on the title part (after `SxxEyy - `), case-insensitive prefix match for "elina" / "glenn"; anything else → Others.
+
+Original flat layout that was reorganized:
+
+- `Season 01/` — 27 files: Elina (E01-E10), Glenn (E11-E26), Seb (E27)
+- `Season 02/` — 1 file: Glenn (S02E01)
+
+Episode numbering is restarted from E01 within each new season (preserving relative order from original episode numbers).
+
+## Plex Login
+
+Use `scripts/plex_login.py` to authenticate with plex.tv and store the token:
+
+```sh
+python3 scripts/plex_login.py
+# prompts for username/email and password
+# writes token to .plex_token (chmod 600) in project root
+```
+
+Or non-interactively:
+
+```sh
+python3 scripts/plex_login.py --username me@example.com --password secret
+```
+
+The token is then picked up automatically by other scripts via `PLEX_TOKEN` env var or `.plex_token` file.
+
+## Scripts Added (Runbook) — westcoast - privates
+
+### Reorganize westcoast - privates by Instructor
+
+- `scripts/reorganize_westcoast_privates.py`
+
+Dry run (prints planned moves, no changes):
+
+```sh
+python3 scripts/reorganize_westcoast_privates.py \
+  --shows-root /mnt/raid/dance/Shows
+```
+
+Apply (moves files, removes empty old seasons, refreshes Plex, sets season titles and artwork):
+
+```sh
+python3 scripts/reorganize_westcoast_privates.py \
+  --shows-root /mnt/raid/dance/Shows \
+  --apply
+```
+
+Arguments:
+
+- `--shows-root`   default: `/mnt/raid/dance/Shows`
+- `--server`       default: `http://127.0.0.1:32400`
+- `--section-id`   default: `13`
+- `--show-title`   default: `westcoast - privates`
+- `--apply`        execute moves and update Plex (dry-run without this)
+
+Plex token: reads `PLEX_TOKEN` env var or `.plex_token` file (written by `plex_login.py`).
+
+Artwork upload: POSTs image binary to `/library/metadata/{rk}/posters` with `Content-Type: image/jpeg`. Images must exist at `~/elina.jpg` and `~/glenn-baal-scc.jpg`.
+
 ## Operational Notes
 
 - Plex API calls from inside the sandbox were unreliable/blocked. Running against `http://127.0.0.1:32400` outside the sandbox worked reliably.
