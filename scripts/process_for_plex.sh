@@ -1,4 +1,5 @@
 #!/bin/bash
+set -o pipefail
 
 # Process movie files for Plex compatibility (Apple TV / iPhone)
 # Uses hardware encoding when available:

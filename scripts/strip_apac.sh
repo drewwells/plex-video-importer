@@ -106,7 +106,7 @@ process_file() {
   if ffmpeg -y -hide_banner -loglevel error \
     -i "$infile" \
     -map 0:v \
-    -map 0:a:"$aac_index" \
+    -map 0:"$aac_index" \
     -map 0:s? \
     -c copy \
     "$outfile"; then

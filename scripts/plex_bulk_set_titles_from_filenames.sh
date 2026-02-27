@@ -51,12 +51,12 @@ import xml.etree.ElementTree as ET
 files_root=os.path.abspath(os.environ['FILES_ROOT'])
 server=os.environ['PLEX_SERVER'].rstrip('/')
 
-rx1=re.compile(r'^.+? - S\\d{2}E\\d+ - (?P<title>.+?)\\.[^.]+$', re.I)
-rx2=re.compile(r'^S\\d{2}E\\d+ - (?P<title>.+?)\\.[^.]+$', re.I)
-cid=re.compile(r'\\s*\\(cid\\s+[^)]+\\)\\s*$', re.I)
-dup=re.compile(r'\\s*\\(\\d+\\)\\s*$')
-br=re.compile(r'\\s*\\[[0-9]+\\]\\s*$')
-ws=re.compile(r'\\s+')
+rx1=re.compile(r'^.+? - S\d{2}E\d+ - (?P<title>.+?)\.[^.]+$', re.I)
+rx2=re.compile(r'^S\d{2}E\d+ - (?P<title>.+?)\.[^.]+$', re.I)
+cid=re.compile(r'\s*\(cid\s+[^)]+\)\s*$', re.I)
+dup=re.compile(r'\s*\(\d+\)\s*$')
+br=re.compile(r'\s*\[[0-9]+\]\s*$')
+ws=re.compile(r'\s+')
 
 root=ET.fromstring(sys.stdin.read())
 out=[]
